@@ -16,14 +16,14 @@ public class PostService {
 
 	// 게시글 작성 
 	public void addPost() {
-		System.out.println("글 작성을 시작합니다.");
-		System.out.println("id?");
-		String id = sc.nextLine();
-		System.out.println("제목을 입력해주세요.");
-		String title = sc.nextLine();
-		System.out.println("내용을 입력해주세요.");
-		System.out.print("- 작성을 멈추려면 /s 을 입력해주세요 :");
-		StringBuilder buf = new StringBuilder();
+		if (MemberService.loginId != null) {
+			String id = MemberService.loginId;
+			System.out.println("글 작성을 시작합니다.");
+			System.out.println("제목을 입력해주세요.");
+			String title = sc.nextLine();
+			System.out.println("내용을 입력해주세요.");
+			System.out.print("- 작성을 멈추려면 /s 을 입력해주세요 :");
+			StringBuilder buf = new StringBuilder();
 		while(true) {
 			String str = sc.nextLine();
 			if (str.startsWith("/s")) {
@@ -33,6 +33,9 @@ public class PostService {
 		}
 		String content = buf.toString();
 		dao.insert(new PostVo(0, id, title, content, null, null, 0));
+		} else {
+			System.out.println("로그인이 필요한 서비스입니다.");
+		}
 	}
 	
 	// 게시글 전체 목록 조회 
@@ -41,6 +44,21 @@ public class PostService {
 		ArrayList<PostVo> list = dao.selectAll();
 		for (PostVo vo : list) {
 			System.out.println(vo);
+		}
+	}
+	
+	// 작성자 아이디로 게시글 전체 검색
+	public void getForMemIdAll() {
+		System.out.println("검색할 작성자의 아이디를 입력해주세요 : ");
+		String memId = sc.next();
+		ArrayList<PostVo> list = dao.selectForMemId(memId);
+		if(list.isEmpty()) {
+			System.out.println("해당하는 작성자의 게시글이 존재하지 않습니다. 다시 입력해주세요.");
+			getForMemIdAll();
+		} else {
+			for(PostVo vo : list) {
+				System.out.println(vo);
+			}
 		}
 	}
 	

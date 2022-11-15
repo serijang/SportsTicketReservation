@@ -21,7 +21,7 @@ public class PostDao {
 		Connection conn = dbconn.conn();  // db에 정보입력해서 연결 
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(sql);  // sql구문을 실행시킬 수 있는 객체 
-			pstmt.setString(1, "1");  // ?의 순서에 따라 인덱스 설정 -> memId가 없으면 ORA-02291 뜸. db에 저장한 memId와 같은 설정값을 넣어줘야 정상작동!
+			pstmt.setString(1, vo.getMemId());  // ?의 순서에 따라 인덱스 설정 -> memId가 없으면 ORA-02291 뜸. db에 저장한 memId와 같은 설정값을 넣어줘야 정상작동!
 			pstmt.setString(2, vo.getTitle());
 			pstmt.setString(3, vo.getContent());
 			pstmt.setInt(4, 0);
@@ -71,13 +71,37 @@ public class PostDao {
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1,  post_seq);
 			ResultSet rs = pstmt.executeQuery();
-			if(rs.next()) {  // rs.next()??
-				return new PostVo(rs.getInt(1), rs.getString(2),
-						rs.getString(3), rs.getString(4), rs.getDate(5), rs.getDate(6), rs.getInt(7));
+			if(rs.next()) {
+				return new PostVo(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getDate(5), rs.getDate(6), rs.getInt(7));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println("데이터를 불러오는데 실패했습니다.");
+		}
+		return null;
+	}
+	
+	// 작성자 아이디(memId)로 게시글 검색
+	public ArrayList<PostVo> selectForMemId(String memId) {
+		ArrayList<PostVo> list = new ArrayList();
+		String sql = "select * from post where memId = ?";
+		Connection conn = dbconn.conn();
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, memId);
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()) {
+				list.add(new PostVo(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getDate(5), rs.getDate(6), rs.getInt(7)));
+			}
+			return list;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return null;
 	}

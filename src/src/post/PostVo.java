@@ -72,7 +72,7 @@ public class PostVo {
 	
 	@Override
 	public String toString() {
-		return "[게시글 번호 = " + post_seq + ", 멤버id = " + memId + ", 제목 = " + title + ", 내용 = " + content + ", 생성일자 = " 
+		return "[게시글 번호 = " + post_seq + ", 작성자 id = " + memId + ", 제목 = " + title + ", 내용 = " + content + ", 생성일자 = " 
 				+ created_date + ", 수정일자 = " + last_modified_date + ", 조회수 = " + hits + "]";
 	}
 }
