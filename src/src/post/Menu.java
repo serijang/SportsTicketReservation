@@ -11,59 +11,37 @@ public class Menu {
 	public Menu() {
 		postService = new PostService();
 	}
-	
+
 	Scanner sc = new Scanner(System.in);
-	
+
 	public void run() {
 		Boolean flag = true;
-		while(flag) {
+		while (flag) {
 			int i = 0;
-			System.out.println("1 : 게시글 목록 조회  2: 글 작성  3: 글 수정 4: 글 삭제 5: 종료 ");
+			System.out.println("1: 게시글 목록 조회 \n2: 글 상세 확인 \n3: 글 작성 \n4: 글 수정 \n5: 글 삭제 \n6: 종료 ");
 			i = sc.nextInt();
 			switch (i) {
 			case 1:
 				postService.getAll();
 				break;
 			case 2:
-				postService.addPost();
+				postService.getPostDetail();
 				break;
 			case 3:
-				postService.editPost();
+				postService.addPost();
 				break;
 			case 4:
-				postService.deletePost();
+				postService.editPost();
 				break;
 			case 5:
+				postService.deletePost();
+				break;
+			case 6:
 				System.out.println("프로그램을 종료합니다.");
 				flag = false;
 				break;
-				
+
 			}
 		}
 	}
-	
-//	public void mrun() {
-//		boolean flag = true;
-//		int m = 0;
-//		while (flag) {
-//				System.out.println("1.로그인 2.회원가입 3.종료");
-//			m = sc.nextInt();
-//			switch (m) {
-//			case 1:
-//				memberService.login();
-//				break;
-//			case 2:
-//				memberService.join();
-//				break;
-//			case 3:
-//				flag = false;
-//				break;
-//			case 4:
-//				run();
-//				break;
-//			case 5:
-//				break;
-//			}
-//		}
-//	}
 }

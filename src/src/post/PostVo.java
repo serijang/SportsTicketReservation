@@ -11,7 +11,7 @@ public class PostVo {
 	Date last_modified_date;
 	int hits;
 	
-	// 생성
+	// 생성자
 	public PostVo() {
 	}
 	
