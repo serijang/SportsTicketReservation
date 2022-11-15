@@ -1,2 +1,2 @@
 # SportsTicketReservation
-mini project (3days)
+Java & Oracle mini project (3 days)
